@@ -1,5 +1,5 @@
 #include <_Log_.h>
-#include <dsl_maker.h>
+#include <global_macro_functions.h>
 
 #include <functional>
 #include <vector>
@@ -24,23 +24,23 @@ public:
 
 StoresCoolBlocksOfCode TheMainBlocksOfCode;
 
-#define CoolBlockOfCode \
-    _DSL_MAKER_REGISTER_NEW_FUNCTION_LAMBDA(TheMainBlocksOfCode.AddCodeBlock, __COUNTER__)()
+#define CoolBlockOfCode                                                             \
+    _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION(TheMainBlocksOfCode.AddCodeBlock) \
+    ()
 
-// DSL blocks (with no arguments)
+// Global code blocks (with arguments)
 CoolBlockOfCode { _Log_("Hello from FIRST CoolBlockOfCode!"); }
 CoolBlockOfCode { _Log_("Hello from SECOND CoolBlockOfCode!"); }
 
-#define BlockWithArguments                                                   \
-    _DSL_MAKER_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS(                         \
-        TheMainBlocksOfCode.AddCodeBlockWithArguments, __COUNTER__, int, int \
+#define BlockWithArguments                                        \
+    _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS( \
+        TheMainBlocksOfCode.AddCodeBlockWithArguments, int, int   \
     )
 
+// Global code blocks (with arguments)
 BlockWithArguments(int arg1, int arg2) {
     _Log_("Hello from BlockWithArguments! arg1 = {}, arg2 = {}", arg1, arg2);
 }
-
-// NEXT: ones which have the (...) argument block please :)
 
 int main() {
     _Log_("Hello from main!");
