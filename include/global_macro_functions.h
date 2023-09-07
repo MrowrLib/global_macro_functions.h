@@ -14,14 +14,14 @@ namespace _GlobalMacroFunctions {
 
 #define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(count) \
     _GlobalMacroFunctions::FunctionRunner _GLOBAL_MACRO_FUNCTIONS_CONCAT(           \
-        __dslMaker__functionRunner__, count                                         \
+        __globalMacroFunctions__functionRunner__, count                             \
     )
 
 #define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME \
     _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(__COUNTER__)
 
 #define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count) \
-    _GLOBAL_MACRO_FUNCTIONS_CONCAT(__dslMaker__function__, count)
+    _GLOBAL_MACRO_FUNCTIONS_CONCAT(__globalMacroFunctions__function__, count)
 
 #define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME(count) \
     _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(__COUNTER__)
