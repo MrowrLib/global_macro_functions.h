@@ -42,6 +42,22 @@ BlockWithArguments(int arg1, int arg2) {
     _Log_("Hello from BlockWithArguments! arg1 = {}, arg2 = {}", arg1, arg2);
 }
 
+// TODO
+// // Pass along other arguments to the block registration function
+
+// RegisterNamedBlock("Name One") {
+//     _Log_("Hello from NamedBlock! Name = {}", name);
+// }
+
+// RegisterNamedBlock("Name Two") {
+//     _Log_("Hello from NamedBlock! Name = {}", name);
+// }
+
+// And an arbitrary lambda that runs at the start of main
+#define RunMe _GLOBAL_MACRO_FUNCTIONS_RUN()
+
+RunMe { _Log_("Hello from RunMe!"); }
+
 int main() {
     _Log_("Hello from main!");
     TheMainBlocksOfCode.ExecuteAllCodeBlocks();

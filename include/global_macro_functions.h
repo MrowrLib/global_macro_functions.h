@@ -26,6 +26,15 @@ namespace _GlobalMacroFunctions {
 #define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME(count) \
     _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(__COUNTER__)
 
+#define _GLOBAL_MACRO_FUNCTIONS_RUN_BODY(count)                                        \
+    inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)();         \
+    _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(count){[]() { \
+        _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)();                 \
+    }};                                                                                \
+    inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)
+
+#define _GLOBAL_MACRO_FUNCTIONS_RUN() _GLOBAL_MACRO_FUNCTIONS_RUN_BODY(__COUNTER__)()
+
 #define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_BODY(lambdaRegistrationFunction, count)    \
     inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)();                   \
     _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(count){[]() {           \
