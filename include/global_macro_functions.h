@@ -129,6 +129,27 @@ namespace _GlobalMacroFunctions {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_BODY(                      \
+    symbol, registrationFunction, returnType, count                                                \
+)                                                                                                  \
+    inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)(); \
+    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){     \
+        []() {                                                                                     \
+            registrationFunction(                                                                  \
+                _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)          \
+            );                                                                                     \
+        }};                                                                                        \
+    inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)
+
+#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN(  \
+    symbol, registrationFunction                                          \
+)                                                                         \
+    _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_BODY( \
+        symbol, registrationFunction, returnType, __COUNTER__             \
+    )
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
 #define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS_BODY(                 \
     registrationFunction, count, ...                                                       \
 )                                                                                          \
@@ -164,6 +185,29 @@ namespace _GlobalMacroFunctions {
 )                                                                            \
     _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS_BODY( \
         symbol, registrationFunction, __COUNTER__, __VA_ARGS__               \
+    )
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_BODY(      \
+    symbol, registrationFunction, returnType, count, ...                                         \
+)                                                                                                \
+    inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)( \
+        __VA_ARGS__                                                                              \
+    );                                                                                           \
+    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){   \
+        []() {                                                                                   \
+            registrationFunction(                                                                \
+                _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)        \
+            );                                                                                   \
+        }};                                                                                      \
+    inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)
+
+#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS(  \
+    symbol, registrationFunction, returnType, ...                                       \
+)                                                                                       \
+    _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_BODY( \
+        symbol, registrationFunction, returnType, __COUNTER__, __VA_ARGS__              \
     )
 
 //////////////////////////////////////////////////////////////////////////////////////////////
