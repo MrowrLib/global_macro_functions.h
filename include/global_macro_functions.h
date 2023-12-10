@@ -8,11 +8,7 @@ namespace _GlobalMacroFunctions {
     };
 }
 
-#if defined(COMPILATION_UNIT_NAME)
-    #define _GLOBAL_MACRO_FUNCTIONS_COMPILATION_UNIT_NAME COMPILATION_UNIT_NAME
-#elif defined(COMPILATION_UNIT)
-    #define _GLOBAL_MACRO_FUNCTIONS_COMPILATION_UNIT_NAME COMPILATION_UNIT
-#else
+#ifndef _GLOBAL_MACRO_FUNCTIONS_COMPILATION_UNIT_NAME
     #define _GLOBAL_MACRO_FUNCTIONS_COMPILATION_UNIT_NAME defaultCompilationUnit
 #endif
 
@@ -68,37 +64,37 @@ namespace _GlobalMacroFunctions {
         COMPILATION_UNIT_CONSTANT(__globalMacroFunctions__function__), count \
     )
 
-#define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME(count) \
+#define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME() \
     _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(__COUNTER__)
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define _GLOBAL_MACRO_FUNCTIONS_RUN_BODY(count)                                        \
+#define __GLOBAL_MACRO_FUNCTIONS_RUN_BODY(count)                                       \
     inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)();         \
     _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(count){[]() { \
         _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)();                 \
     }};                                                                                \
     inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)
 
-#define _GLOBAL_MACRO_FUNCTIONS_RUN() _GLOBAL_MACRO_FUNCTIONS_RUN_BODY(__COUNTER__)()
+#define _GLOBAL_MACRO_FUNCTIONS_RUN() __GLOBAL_MACRO_FUNCTIONS_RUN_BODY(__COUNTER__)()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define _GLOBAL_MACRO_FUNCTIONS_RUN_NAMED_BODY(symbol, count)                                  \
-    inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)();   \
-    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){ \
-        []() {                                                                                 \
-            _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)          \
-            ();                                                                                \
-        }};                                                                                    \
+#define __GLOBAL_MACRO_FUNCTIONS_RUN_NAMED_BODY(symbol, count)                                    \
+    inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)();      \
+    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){[]( \
+                                                                                              ) { \
+        _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)                 \
+        ();                                                                                       \
+    }};                                                                                           \
     inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)
 
 #define _GLOBAL_MACRO_FUNCTIONS_RUN_NAMED(symbol) \
-    _GLOBAL_MACRO_FUNCTIONS_RUN_NAMED_BODY(symbol, __COUNTER__)()
+    __GLOBAL_MACRO_FUNCTIONS_RUN_NAMED_BODY(symbol, __COUNTER__)()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_BODY(registrationFunction, count)    \
+#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_BODY(registrationFunction, count)   \
     inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)();             \
     _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(count){[]() {     \
         registrationFunction(_GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)); \
@@ -106,51 +102,51 @@ namespace _GlobalMacroFunctions {
     inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)
 
 #define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION(registrationFunction) \
-    _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_BODY(registrationFunction, __COUNTER__)
+    __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_BODY(registrationFunction, __COUNTER__)
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_BODY(                              \
-    symbol, registrationFunction, count                                                        \
-)                                                                                              \
-    inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)();   \
-    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){ \
-        []() {                                                                                 \
-            registrationFunction(                                                              \
-                _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)      \
-            );                                                                                 \
-        }};                                                                                    \
+#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_BODY(                                \
+    symbol, registrationFunction, count                                                           \
+)                                                                                                 \
+    inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)();      \
+    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){[]( \
+                                                                                              ) { \
+        registrationFunction(                                                                     \
+            _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)             \
+        );                                                                                        \
+    }};                                                                                           \
     inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)
 
 #define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION(symbol, registrationFunction) \
-    _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_BODY(                             \
+    __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_BODY(                            \
         symbol, registrationFunction, __COUNTER__                                         \
     )
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_BODY(                      \
+#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_BODY(                     \
     symbol, registrationFunction, returnType, count                                                \
 )                                                                                                  \
     inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)(); \
-    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){     \
-        []() {                                                                                     \
-            registrationFunction(                                                                  \
-                _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)          \
-            );                                                                                     \
-        }};                                                                                        \
+    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){[](  \
+                                                                                              ) {  \
+        registrationFunction(                                                                      \
+            _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)              \
+        );                                                                                         \
+    }};                                                                                            \
     inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)
 
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN(  \
-    symbol, registrationFunction                                          \
-)                                                                         \
-    _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_BODY( \
-        symbol, registrationFunction, returnType, __COUNTER__             \
+#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN(   \
+    symbol, registrationFunction                                           \
+)                                                                          \
+    __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_BODY( \
+        symbol, registrationFunction, returnType, __COUNTER__              \
     )
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS_BODY(                 \
+#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS_BODY(                \
     registrationFunction, count, ...                                                       \
 )                                                                                          \
     inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)(__VA_ARGS__);  \
@@ -160,54 +156,54 @@ namespace _GlobalMacroFunctions {
     inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)
 
 #define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS(registrationFunction, ...) \
-    _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS_BODY(                          \
+    __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS_BODY(                         \
         registrationFunction, __COUNTER__, __VA_ARGS__                                          \
     )
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS_BODY(               \
-    symbol, registrationFunction, count, ...                                                   \
-)                                                                                              \
-    inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)(     \
-        __VA_ARGS__                                                                            \
-    );                                                                                         \
-    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){ \
-        []() {                                                                                 \
-            registrationFunction(                                                              \
-                _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)      \
-            );                                                                                 \
-        }};                                                                                    \
+#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS_BODY(                 \
+    symbol, registrationFunction, count, ...                                                      \
+)                                                                                                 \
+    inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)(        \
+        __VA_ARGS__                                                                               \
+    );                                                                                            \
+    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){[]( \
+                                                                                              ) { \
+        registrationFunction(                                                                     \
+            _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)             \
+        );                                                                                        \
+    }};                                                                                           \
     inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)
 
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS(  \
-    symbol, registrationFunction, ...                                        \
-)                                                                            \
-    _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS_BODY( \
-        symbol, registrationFunction, __COUNTER__, __VA_ARGS__               \
+#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS(   \
+    symbol, registrationFunction, ...                                         \
+)                                                                             \
+    __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS_BODY( \
+        symbol, registrationFunction, __COUNTER__, __VA_ARGS__                \
     )
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_BODY(      \
-    symbol, registrationFunction, returnType, count, ...                                         \
-)                                                                                                \
-    inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)( \
-        __VA_ARGS__                                                                              \
-    );                                                                                           \
-    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){   \
-        []() {                                                                                   \
-            registrationFunction(                                                                \
-                _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)        \
-            );                                                                                   \
-        }};                                                                                      \
+#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_BODY(      \
+    symbol, registrationFunction, returnType, count, ...                                          \
+)                                                                                                 \
+    inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)(  \
+        __VA_ARGS__                                                                               \
+    );                                                                                            \
+    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){[]( \
+                                                                                              ) { \
+        registrationFunction(                                                                     \
+            _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)             \
+        );                                                                                        \
+    }};                                                                                           \
     inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)
 
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS(  \
-    symbol, registrationFunction, returnType, ...                                       \
-)                                                                                       \
-    _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_BODY( \
-        symbol, registrationFunction, returnType, __COUNTER__, __VA_ARGS__              \
+#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS(   \
+    symbol, registrationFunction, returnType, ...                                        \
+)                                                                                        \
+    __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_BODY( \
+        symbol, registrationFunction, returnType, __COUNTER__, __VA_ARGS__               \
     )
 
 //////////////////////////////////////////////////////////////////////////////////////////////
