@@ -1,5 +1,9 @@
 #pragma once
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+// FunctionRunner is used to register functions to be run at the start of the program.
+
 #include <functional>
 
 namespace _GlobalMacroFunctions {
@@ -8,24 +12,40 @@ namespace _GlobalMacroFunctions {
     };
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+// Generic Helper Macros
+
+#define _GLOBAL_MACRO_FUNCTIONS_EXPAND(symbol) symbol
+
+#define _GLOBAL_MACRO_FUNCTIONS_STRINGIZE_CORE(symbol) #symbol
+
+#define _GLOBAL_MACRO_FUNCTIONS_STRINGIZE(symbol) _GLOBAL_MACRO_FUNCTIONS_STRINGIZE_CORE(symbol)
+
+#define _GLOBAL_MACRO_FUNCTIONS_CONCAT_CORE(a, b) a##b
+
+#define _GLOBAL_MACRO_FUNCTIONS_CONCAT(a, b) _GLOBAL_MACRO_FUNCTIONS_CONCAT_CORE(a, b)
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
 #ifndef _GLOBAL_MACRO_FUNCTIONS_COMPILATION_UNIT_NAME
-    #define _GLOBAL_MACRO_FUNCTIONS_COMPILATION_UNIT_NAME defaultCompilationUnit
+    #define _GLOBAL_MACRO_FUNCTIONS_COMPILATION_UNIT_NAME _DefaultCompilationUnit_
 #endif
 
-#define _GLOBAL_MACRO_FUNCTIONS_CONCAT_SIMPLE(a, b) a##b
+// Provide your own macro to provide unique constants
+// or fall back to the default implementation which concatenates the symbol with the compilation
+// unit name
 
-#define _GLOBAL_MACRO_FUNCTIONS_CONCAT(a, b) _GLOBAL_MACRO_FUNCTIONS_CONCAT_SIMPLE(a, b)
-
-#ifndef COMPILATION_UNIT_CONSTANT
-    #define COMPILATION_UNIT_CONSTANT(name) \
-        _GLOBAL_MACRO_FUNCTIONS_CONCAT(name, _GLOBAL_MACRO_FUNCTIONS_COMPILATION_UNIT_NAME)
+#ifndef GLOBAL_MACRO_COMPILATION_UNIT_CONSTANT
+    #define GLOBAL_MACRO_COMPILATION_UNIT_CONSTANT(symbol) \
+        _GLOBAL_MACRO_FUNCTIONS_CONCAT(symbol, _GLOBAL_MACRO_FUNCTIONS_COMPILATION_UNIT_NAME)
 #endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 #define _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count) \
     _GlobalMacroFunctions::FunctionRunner _GLOBAL_MACRO_FUNCTIONS_CONCAT(                         \
-        COMPILATION_UNIT_CONSTANT(                                                                \
+        GLOBAL_MACRO_COMPILATION_UNIT_CONSTANT(                                                   \
             _GLOBAL_MACRO_FUNCTIONS_CONCAT(__globalMacroFunctions__functionRunner__, symbol)      \
         ),                                                                                        \
         count                                                                                     \
@@ -36,9 +56,9 @@ namespace _GlobalMacroFunctions {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(count) \
-    _GlobalMacroFunctions::FunctionRunner _GLOBAL_MACRO_FUNCTIONS_CONCAT(           \
-        COMPILATION_UNIT_CONSTANT(__globalMacroFunctions__functionRunner__), count  \
+#define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(count)             \
+    _GlobalMacroFunctions::FunctionRunner _GLOBAL_MACRO_FUNCTIONS_CONCAT(                       \
+        GLOBAL_MACRO_COMPILATION_UNIT_CONSTANT(__globalMacroFunctions__functionRunner__), count \
     )
 
 #define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME \
@@ -48,7 +68,7 @@ namespace _GlobalMacroFunctions {
 
 #define _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)      \
     _GLOBAL_MACRO_FUNCTIONS_CONCAT(                                                    \
-        COMPILATION_UNIT_CONSTANT(                                                     \
+        GLOBAL_MACRO_COMPILATION_UNIT_CONSTANT(                                        \
             _GLOBAL_MACRO_FUNCTIONS_CONCAT(__globalMacroFunctions__function__, symbol) \
         ),                                                                             \
         count                                                                          \
@@ -59,9 +79,9 @@ namespace _GlobalMacroFunctions {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)          \
-    _GLOBAL_MACRO_FUNCTIONS_CONCAT(                                          \
-        COMPILATION_UNIT_CONSTANT(__globalMacroFunctions__function__), count \
+#define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)                       \
+    _GLOBAL_MACRO_FUNCTIONS_CONCAT(                                                       \
+        GLOBAL_MACRO_COMPILATION_UNIT_CONSTANT(__globalMacroFunctions__function__), count \
     )
 
 #define _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME() \
