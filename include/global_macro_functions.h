@@ -97,8 +97,9 @@ namespace _GlobalMacroFunctions {
 
 #define _GLOBAL_MACRO_FUNCTIONS_RUN() __GLOBAL_MACRO_FUNCTIONS_RUN_BODY(__COUNTER__)()
 
-// Anonymous version: everything is defined inside an anonymous namespace.
+//////////////////////////////////////////////////////////////////////////////////////////////
 
+// Anonymous version: everything is defined inside an anonymous namespace.
 #define __GLOBAL_MACRO_FUNCTIONS_RUN_BODY_ANON(count)                               \
     namespace {                                                                     \
         inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)();  \
@@ -123,20 +124,6 @@ namespace _GlobalMacroFunctions {
 #define _GLOBAL_MACRO_FUNCTIONS_RUN_NAMED(symbol) \
     __GLOBAL_MACRO_FUNCTIONS_RUN_NAMED_BODY(symbol, __COUNTER__)()
 
-// Anonymous version: everything is defined inside an anonymous namespace.
-
-#define __GLOBAL_MACRO_FUNCTIONS_RUN_NAMED_BODY_ANON(symbol, count)                                \
-    namespace {                                                                                    \
-        inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)();   \
-        _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){ \
-            []() { _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)(); }  \
-        };                                                                                         \
-        inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)()    \
-    }
-
-#define _GLOBAL_MACRO_FUNCTIONS_RUN_NAMED_ANON(symbol) \
-    __GLOBAL_MACRO_FUNCTIONS_RUN_NAMED_BODY_ANON(symbol, __COUNTER__)()
-
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 #define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_BODY(registrationFunction, count)   \
@@ -148,20 +135,6 @@ namespace _GlobalMacroFunctions {
 
 #define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION(registrationFunction) \
     __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_BODY(registrationFunction, __COUNTER__)
-
-// Anonymous version: everything is defined inside an anonymous namespace.
-
-#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_BODY_ANON(registrationFunction, count)  \
-    namespace {                                                                                \
-        inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)();             \
-        _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(count){[]() {     \
-            registrationFunction(_GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)); \
-        }};                                                                                    \
-        inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)()              \
-    }
-
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_ANON(registrationFunction) \
-    __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_BODY_ANON(registrationFunction, __COUNTER__)
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -180,28 +153,6 @@ namespace _GlobalMacroFunctions {
 #define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION(symbol, registrationFunction) \
     __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_BODY(                            \
         symbol, registrationFunction, __COUNTER__                                         \
-    )
-
-// Anonymous version: everything is defined inside an anonymous namespace.
-
-#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_BODY_ANON(                            \
-    symbol, registrationFunction, count                                                            \
-)                                                                                                  \
-    namespace {                                                                                    \
-        inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)();   \
-        _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){ \
-            []() {                                                                                 \
-                registrationFunction(                                                              \
-                    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)      \
-                );                                                                                 \
-            }                                                                                      \
-        };                                                                                         \
-        inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)()    \
-    }
-
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_ANON(symbol, registrationFunction) \
-    __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_BODY_ANON(                            \
-        symbol, registrationFunction, __COUNTER__                                              \
     )
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -225,33 +176,6 @@ namespace _GlobalMacroFunctions {
         symbol, registrationFunction, returnType, __COUNTER__              \
     )
 
-// Anonymous version: everything is defined inside an anonymous namespace.
-
-#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_BODY_ANON(           \
-    symbol, registrationFunction, returnType, count                                           \
-)                                                                                             \
-    namespace {                                                                               \
-        inline returnType                                                                     \
-            _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)();      \
-        _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(           \
-            symbol, count                                                                     \
-        ) {                                                                                   \
-            []() {                                                                            \
-                registrationFunction(                                                         \
-                    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count) \
-                );                                                                            \
-            };                                                                                \
-            inline returnType                                                                 \
-            _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)()       \
-        }
-
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_ANON(   \
-    symbol, registrationFunction, returnType                                    \
-)                                                                               \
-    __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_BODY_ANON( \
-        symbol, registrationFunction, returnType, __COUNTER__                   \
-    )
-
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 #define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS_BODY(                \
@@ -266,26 +190,6 @@ namespace _GlobalMacroFunctions {
 #define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS(registrationFunction, ...) \
     __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS_BODY(                         \
         registrationFunction, __COUNTER__, __VA_ARGS__                                          \
-    )
-
-// Anonymous version: everything is defined inside an anonymous namespace.
-
-#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS_BODY_ANON(               \
-    registrationFunction, count, ...                                                           \
-)                                                                                              \
-    namespace {                                                                                \
-        inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)(__VA_ARGS__);  \
-        _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(count){[]() {     \
-            registrationFunction(_GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)); \
-        }};                                                                                    \
-        inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)()              \
-    }
-
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS_ANON(   \
-    registrationFunction, ...                                                \
-)                                                                            \
-    __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_FUNCTION_WITH_ARGUMENTS_BODY_ANON( \
-        registrationFunction, __COUNTER__, __VA_ARGS__                       \
     )
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -311,34 +215,6 @@ namespace _GlobalMacroFunctions {
         symbol, registrationFunction, __COUNTER__, __VA_ARGS__                \
     )
 
-// Anonymous version: everything is defined inside an anonymous namespace.
-
-#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS_BODY_ANON(             \
-    symbol, registrationFunction, count, ...                                                       \
-)                                                                                                  \
-    namespace {                                                                                    \
-        inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)(     \
-            __VA_ARGS__                                                                            \
-        );                                                                                         \
-        _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(                \
-            symbol, count                                                                          \
-        ) {                                                                                        \
-            []() {                                                                                 \
-                registrationFunction(                                                              \
-                    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)      \
-                );                                                                                 \
-            };                                                                                     \
-            inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)( \
-            )                                                                                      \
-        }
-
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS_ANON(   \
-    symbol, registrationFunction, ...                                              \
-)                                                                                  \
-    __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS_BODY_ANON( \
-        symbol, registrationFunction, __COUNTER__, __VA_ARGS__                     \
-    )
-
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 #define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_BODY(      \
@@ -360,34 +236,6 @@ namespace _GlobalMacroFunctions {
 )                                                                                        \
     __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_BODY( \
         symbol, registrationFunction, returnType, __COUNTER__, __VA_ARGS__               \
-    )
-
-// Anonymous version: everything is defined inside an anonymous namespace.
-
-#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_BODY_ANON( \
-    symbol, registrationFunction, returnType, count, ...                                          \
-)                                                                                                 \
-    namespace {                                                                                   \
-        inline returnType                                                                         \
-            _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)(__VA_ARGS__ \
-            );                                                                                    \
-        _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(               \
-            symbol, count                                                                         \
-        ) {                                                                                       \
-            []() {                                                                                \
-                registrationFunction(                                                             \
-                    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)     \
-                );                                                                                \
-            };                                                                                    \
-            inline returnType                                                                     \
-            _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)()           \
-        }
-
-#define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_ANON(   \
-    symbol, registrationFunction, returnType, ...                                             \
-)                                                                                             \
-    __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_BODY_ANON( \
-        symbol, registrationFunction, returnType, __COUNTER__, __VA_ARGS__                    \
     )
 
 //////////////////////////////////////////////////////////////////////////////////////////////
