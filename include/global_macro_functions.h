@@ -139,9 +139,9 @@ namespace _GlobalMacroFunctions {
     namespace {                                                                                    \
         _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){ \
             []() {                                                                                 \
-                registrationFunction(                                                              \
+                registrationFunction(static_cast<void (*)()>(                                      \
                     &_GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)     \
-                );                                                                                 \
+                ));                                                                                \
             }                                                                                      \
         };                                                                                         \
     }                                                                                              \
