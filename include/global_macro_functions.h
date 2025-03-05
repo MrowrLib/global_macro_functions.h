@@ -1,6 +1,6 @@
-//////////////////////////////////////////////////////////////////////////////////////////////
-
 #pragma once
+
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 // FunctionRunner is used to register functions to be run at the start of the program.
 
@@ -89,26 +89,14 @@ namespace _GlobalMacroFunctions {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define __GLOBAL_MACRO_FUNCTIONS_RUN_BODY(count)                                \
-    inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)();  \
-    _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(count  \
-    ){[]() { _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)(); }}; \
+#define __GLOBAL_MACRO_FUNCTIONS_RUN_BODY(count)                                       \
+    inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)();         \
+    _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(count){[]() { \
+        _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)();                 \
+    }};                                                                                \
     inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)
 
 #define _GLOBAL_MACRO_FUNCTIONS_RUN() __GLOBAL_MACRO_FUNCTIONS_RUN_BODY(__COUNTER__)()
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-// Anonymous version: everything is defined inside an anonymous namespace.
-#define __GLOBAL_MACRO_FUNCTIONS_RUN_BODY_ANON(count)                               \
-    namespace {                                                                     \
-        inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)();  \
-        _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(count  \
-        ){[]() { _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)(); }}; \
-        inline void _GLOBAL_MACRO_FUNCTIONS_NEW_FUNCTION_NAME_FROM_COUNT(count)()   \
-    }
-
-#define _GLOBAL_MACRO_FUNCTIONS_RUN_ANON() __GLOBAL_MACRO_FUNCTIONS_RUN_BODY_ANON(__COUNTER__)()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
