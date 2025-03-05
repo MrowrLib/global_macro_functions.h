@@ -196,18 +196,21 @@ namespace _GlobalMacroFunctions {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS_BODY(                 \
-    symbol, registrationFunction, count, ...                                                      \
-)                                                                                                 \
-    inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)(        \
-        __VA_ARGS__                                                                               \
-    );                                                                                            \
-    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){[]( \
-                                                                                              ) { \
-        registrationFunction(                                                                     \
-            &_GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)            \
-        );                                                                                        \
-    }};                                                                                           \
+#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS_BODY(                  \
+    symbol, registrationFunction, count, ...                                                       \
+)                                                                                                  \
+    inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)(         \
+        __VA_ARGS__                                                                                \
+    );                                                                                             \
+    namespace {                                                                                    \
+        _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){ \
+            []() {                                                                                 \
+                registrationFunction(static_cast<void (*)()>(                                      \
+                    &_GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)     \
+                ));                                                                                \
+            }                                                                                      \
+        };                                                                                         \
+    }                                                                                              \
     inline void _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)
 
 #define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_ARGUMENTS(   \
@@ -219,18 +222,21 @@ namespace _GlobalMacroFunctions {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_BODY(      \
-    symbol, registrationFunction, returnType, count, ...                                          \
-)                                                                                                 \
-    inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)(  \
-        __VA_ARGS__                                                                               \
-    );                                                                                            \
-    _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){[]( \
-                                                                                              ) { \
-        registrationFunction(                                                                     \
-            &_GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)            \
-        );                                                                                        \
-    }};                                                                                           \
+#define __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS_BODY(       \
+    symbol, registrationFunction, returnType, count, ...                                           \
+)                                                                                                  \
+    inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)(   \
+        __VA_ARGS__                                                                                \
+    );                                                                                             \
+    namespace {                                                                                    \
+        _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_RUNNER_VARIABLE_NAME_FROM_COUNT(symbol, count){ \
+            []() {                                                                                 \
+                registrationFunction(                                                              \
+                    &_GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)     \
+                );                                                                                 \
+            }                                                                                      \
+        };                                                                                         \
+    }                                                                                              \
     inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)
 
 #define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_AND_ARGUMENTS(   \
