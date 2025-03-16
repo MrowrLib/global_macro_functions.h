@@ -170,7 +170,7 @@ namespace _GlobalMacroFunctions {
     inline returnType _GLOBAL_MACRO_FUNCTIONS_NEW_NAMED_FUNCTION_NAME_FROM_COUNT(symbol, count)
 
 #define _GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN(   \
-    symbol, registrationFunction                                           \
+    symbol, registrationFunction, returnType                               \
 )                                                                          \
     __GLOBAL_MACRO_FUNCTIONS_REGISTER_NEW_NAMED_FUNCTION_WITH_RETURN_BODY( \
         symbol, registrationFunction, returnType, __COUNTER__              \
